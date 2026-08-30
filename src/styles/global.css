@@ -1,23 +1,23 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+@import "tailwindcss";
 
+/*
+  The Velvet Orchid — warm cozy home theme
+  Base structure adapted from Bear Blog's default CSS.
+*/
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
+	--accent: #C96F4A;
+	--accent-dark: #A8542F;
+	--black: 58, 46, 40;
+	--gray: 168, 143, 122;
+	--gray-light: 228, 213, 195;
+	--gray-dark: 58, 46, 40;
+	--gray-gradient: rgba(228, 213, 195, 40%), #FDF6EE;
 	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+		0 2px 6px rgba(168, 143, 122, 20%), 0 8px 24px rgba(168, 143, 122, 15%),
+		0 16px 32px rgba(168, 143, 122, 15%);
 }
 body {
-	font-family: var(--font-atkinson);
+	font-family: var(--font-body);
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -35,93 +35,80 @@ main {
 	margin: auto;
 	padding: 3em 1em;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--font-heading);
 	margin: 0 0 0.5rem 0;
 	color: rgb(var(--black));
 	line-height: 1.2;
+	font-weight: 600;
 }
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
+h1 { font-size: 3.052em; }
+h2 { font-size: 2.441em; }
+h3 { font-size: 1.953em; }
+h4 { font-size: 1.563em; }
+h5 { font-size: 1.25em; }
+strong, b { font-weight: 700; }
 a {
 	color: var(--accent);
+	text-decoration: none;
 }
 a:hover {
-	color: var(--accent);
+	color: var(--accent-dark);
+	text-decoration: underline;
 }
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
+p { margin-bottom: 1em; }
+.prose p { margin-bottom: 2em; }
+textarea, input { font-size: 16px; }
+table { width: 100%; }
 img {
 	max-width: 100%;
 	height: auto;
-	border-radius: 8px;
+	border-radius: 20px;
+	box-shadow: var(--box-shadow);
 }
 code {
-	padding: 2px 5px;
+	padding: 2px 8px;
 	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
+	border-radius: 8px;
 }
 pre {
 	padding: 1.5em;
-	border-radius: 8px;
+	border-radius: 16px;
+	background-color: #F5E9DC;
 }
-pre > code {
-	all: unset;
-}
+pre > code { all: unset; }
 blockquote {
 	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
+	padding: 0.5em 0 0.5em 20px;
+	margin: 1em 0;
+	font-size: 1.2em;
+	font-style: italic;
+	background: rgba(232, 168, 124, 0.12);
+	border-radius: 0 16px 16px 0;
 }
 hr {
 	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
+	border-top: 2px solid rgb(var(--gray-light));
+	margin: 2em 0;
+}
+button, .btn {
+	background-color: var(--accent);
+	color: white;
+	padding: 0.6em 1.4em;
+	border-radius: 999px;
+	border: none;
+	font-family: var(--font-body);
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+button:hover, .btn:hover {
+	background-color: var(--accent-dark);
 }
 @media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
+	body { font-size: 18px; }
+	main { padding: 1em; }
 }
-
 .sr-only {
 	border: 0;
 	padding: 0;
@@ -130,12 +117,8 @@ hr {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
 	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
 	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
