@@ -1,4 +1,45 @@
-﻿---
+# Run this script from the root of your The Velvet Orchid Astro project.
+$ErrorActionPreference = "Stop"
+
+$assetsDir = Join-Path (Get-Location) "src\assets"
+$blogPage = Join-Path (Get-Location) "src\pages\blog\index.astro"
+
+New-Item -ItemType Directory -Force $assetsDir | Out-Null
+
+$images = @(
+    @{
+        Name = "cozy-plants-1.jpg"
+        Url = "https://images.unsplash.com/photo-1765192846136-afe09533db68?auto=format&fit=crop&fm=jpg&q=85&w=1400"
+    },
+    @{
+        Name = "cozy-plants-2.jpg"
+        Url = "https://images.unsplash.com/photo-1749372523243-1c0585ac3bef?auto=format&fit=crop&fm=jpg&q=85&w=1400"
+    },
+    @{
+        Name = "cozy-plants-3.jpg"
+        Url = "https://images.unsplash.com/photo-1723324471072-7df0ffe08fa6?auto=format&fit=crop&fm=jpg&q=85&w=1400"
+    },
+    @{
+        Name = "cozy-plants-4.jpg"
+        Url = "https://images.unsplash.com/photo-1776729833778-aab44f884004?auto=format&fit=crop&fm=jpg&q=85&w=1400"
+    },
+    @{
+        Name = "cozy-plants-5.jpg"
+        Url = "https://images.unsplash.com/photo-1753770960073-ff5c58fd9cfb?auto=format&fit=crop&fm=jpg&q=85&w=1400"
+    }
+)
+
+foreach ($image in $images) {
+    $target = Join-Path $assetsDir $image.Name
+    Write-Host "Downloading $($image.Name)..."
+    curl.exe -L --fail --silent --show-error $image.Url -o $target
+    if (!(Test-Path $target) -or (Get-Item $target).Length -lt 10000) {
+        throw "Download failed or image is too small: $($image.Name)"
+    }
+}
+
+$astro = @'
+---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
@@ -155,3 +196,17 @@ const heroImages = [cozy1, cozy2, cozy3, cozy4, cozy5];
         <Footer />
     </body>
 </html>
+'@
+
+Set-Content -Path $blogPage -Value $astro -Encoding UTF8
+
+Write-Host ""
+Write-Host "DONE." -ForegroundColor Green
+Write-Host "5 cozy images were added to src\assets."
+Write-Host "src\pages\blog\index.astro now rotates them automatically."
+Write-Host ""
+Write-Host "Now run:"
+Write-Host "npm run build"
+Write-Host ""
+Write-Host "Then check:"
+Write-Host "http://localhost:4321/blog"
